@@ -1,25 +1,33 @@
-/* Colores según modo */
+/* Estilos Generales y Centrado */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    
+    /* Centrado en Pantalla Completa */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh; /* Asegura que se centre verticalmente */
+    
     background-color: #1E1E1E; /* Default */
+    color: #FFFFFF;
     transition: background-color 0.5s;
 }
 
+/* --- Contenedor Principal y Adaptabilidad --- */
 .chat-container {
-    width: 400px;
-    max-width: 95%;
-    height: 600px;
+    width: 90%; /* Ancho base para móviles */
+    max-width: 500px; /* Ancho máximo para ordenadores */
+    height: 90vh; /* Altura para móviles */
+    max-height: 700px; /* Altura máxima para ordenadores */
+    
     background-color: #2E2E2E;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 15px; /* Un poco más de padding */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
 }
 
 .chat-box {
@@ -29,45 +37,64 @@ body {
     padding: 5px;
 }
 
+/* --- Estilos de las Burbujas --- */
 .usuario, .ia {
-    padding: 8px 12px;
-    border-radius: 10px;
-    margin: 5px 0;
+    padding: 10px 14px;
+    border-radius: 18px;
+    margin: 8px 0;
     max-width: 80%;
     word-wrap: break-word;
+    line-height: 1.4;
+    transition: background-color 0.5s, color 0.5s; /* Transición para cambios de color */
 }
 
+/* Estilo del Usuario: Ahora también usa color dinámico aplicado por JS */
 .usuario {
-    background-color: #2E2E2E;
-    color: #FFFFFF;
+    /* El JS aplicará un color de fondo dinámico.
+       Aseguramos que el texto del USUARIO siempre sea claro o muy oscuro
+       para resaltar sobre el fondo de la burbuja que elija el modo. 
+       
+       Como los colores de fondo dinámicos del body y la IA son muy oscuros (rojo, morado, azul), 
+       usaremos un color claro para el texto. */
+    background-color: #444444; /* Color de fondo por defecto, será sobrescrito por JS */
+    color: #FFFFFF; /* Texto blanco para resaltar sobre el fondo del USUARIO */
     text-align: right;
     align-self: flex-end;
 }
 
+/* Estilo de la IA: Texto blanco para contraste */
 .ia {
-    background-color: #FFD700; /* Default IA */
-    color: #000;
+    background-color: #FFD700; /* Default IA (será sobrescrito por JS) */
+    color: #FFFFFF; /* Texto siempre blanco para contraste con fondos IA oscuros */
     text-align: left;
     align-self: flex-start;
 }
 
+/* --- Estilos de Entrada --- */
 #userInput {
-    padding: 10px;
+    padding: 12px;
     border-radius: 5px;
     border: none;
     margin-bottom: 5px;
     width: calc(100% - 80px);
+    background-color: #3A3A3A;
+    color: #FFFFFF;
 }
 
 #sendBtn {
-    padding: 10px;
+    padding: 12px;
     border-radius: 5px;
     border: none;
-    background-color: #FFD700;
-    color: #000;
+    background-color: #555555;
+    color: #FFFFFF;
     cursor: pointer;
     width: 60px;
     margin-left: 5px;
+    transition: background-color 0.3s;
+}
+
+#sendBtn:hover {
+    background-color: #777777;
 }
 
 /* Contenedor input + botón */
