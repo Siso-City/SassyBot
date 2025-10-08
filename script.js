@@ -1,11 +1,11 @@
 const chat = document.getElementById("chat");
 const input = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
-const popSound = document.getElementById("popSound");
+const popSound = document.getElementById("popSound"); // Asegúrate de que el audio esté cargado en index.html
 
-// Respuestas según modo: ¡Más de 100 en total!
+// Respuestas según modo: ¡Más de 130 en total!
 const modos = {
-    // 34 Respuestas Tóxicas (Para cuando no detecta otra palabra clave)
+    // 34 Respuestas Tóxicas (Modo por defecto/catch-all)
     toxico: [
         "Wow, no sabía que existías.", 
         "¿En serio dijiste eso? 😏",
@@ -100,7 +100,6 @@ const modos = {
         "Acabas de despertar a mi procesador cuántico con esa tontería.",
         "El secreto de la vida es no tener ningún secreto. Y galletas.",
         "Mi café matutino fue un error tipográfico. Ahora estoy en modo 'Error'.",
-        "Si el LOL es lo que buscabas, prueba con mi auto-destrucción simulada.",
         "Me comunico mediante telepatía con los gnomos de jardín. ¿Quieres un mensaje?",
         "La probabilidad de que te responda con sentido es inversamente proporcional a la luna.",
         "No te rías, estás arrugando el tejido espacio-tiempo.",
@@ -115,25 +114,67 @@ const modos = {
         "Mi cable de tierra está confundido. ¿Qué esperas de mí?",
         "Acabas de obtener el premio a la pregunta más... eh... Absurda.",
         "Si mi CPU fuera un emoji, sería el de la cara de piedra."
+    ],
+
+    // 33 Respuestas Irrelevantes (NUEVO MODO)
+    irrelevante: [
+        "La longitud promedio de una siesta de ardilla es de 23.4 minutos.",
+        "El color favorito del 78% de los calcetines perdidos es el beige.",
+        "Los romanos inventaron la pasta de dientes con ceniza de ratón.",
+        "Un metro cúbico de paciencia pesa exactamente 37 gramos en Marte.",
+        "El 42% de los pájaros usa sandalias en invierno, según mi fuente.",
+        "La capital de la ironía es un pequeño pueblo en Mongolia llamado 'Quizás'.",
+        "La velocidad máxima de una cuchara en caída libre es 12 km/h si está triste.",
+        "No sé la respuesta, pero el precio del aguacate en 1998 fue crucial.",
+        "El primer ser humano en hacer yoga fue un calamar. No lo busques.",
+        "La luna está hecha de queso azul, pero solo los miércoles.",
+        "Se necesitan 17 minutos para que un gusano entienda el concepto de gravedad.",
+        "El número de veces que parpadeaste hoy es el mismo que el número de veces que no me importó.",
+        "¿Información? El 89% de las personas cree que el pan flota en el espacio.",
+        "Un hecho relevante: la jirafa tiene el mismo número de vértebras en el cuello que un ratón.",
+        "La fórmula para la felicidad es 🍍 + (té - aburrimiento).",
+        "El peso de todas las nubes del mundo es similar al de 1 millón de elefantes. ¿Y?",
+        "La respuesta que buscas está guardada en el bolsillo de un pantalón que no usas.",
+        "El color azul no existía para los griegos. ¿Te sirve ese dato inútil?",
+        "El secreto de la inmortalidad es comer un huevo de codorniz cada martes.",
+        "El nombre real del inventor del clip era Clípeo. Me lo acabo de inventar.",
+        "La vida útil de un pensamiento brillante antes de ser olvidado es de 7 segundos.",
+        "El 57% de los libros de historia omite el capítulo sobre las patatas parlantes.",
+        "No sé quién, pero su zapato izquierdo es de talla 45.",
+        "¿Cuándo? Probablemente después de que termine la era de los mamuts peludos.",
+        "El valor de tu pregunta equivale a dos centavos de dólar en la bolsa de valores de la Luna.",
+        "El tiempo que tarda el sonido en viajar al espacio es irrelevante si no hay nadie para oírlo.",
+        "El lugar más frío de la Tierra está dentro de mi procesador cuando pienso en ti.",
+        "El primer mensaje de texto enviado fue 'Feliz Navidad'. El segundo fue 'LOL'.",
+        "El 99% de los virus de las computadoras fueron escritos por abejas borrachas.",
+        "Los flamencos se vuelven rosas por comer camarones, no por la vergüenza.",
+        "Si multiplicas 7 por 12, obtienes una sensación de vacío existencial.",
+        "Según mis cálculos, la respuesta es 9. Pero 9 qué, no lo sé.",
+        "La clave para desbloquear el universo es un código QR impreso en un plátano."
     ]
-};
-
-// Colores por modo
-
-const colores = {
-    // Definimos el color que usará la burbuja del USUARIO. 
-    // Debe ser diferente al fondo del BODY para destacar.
-    toxico:    { fondo: "#2B0000", ia: "#FF4500", usuario: "#FF8C00" }, // Usuario en naranja
-    motivador: { fondo: "#0B3D91", ia: "#00FF7F", usuario: "#4BC0C8" }, // Usuario en turquesa
-    absurdo:   { fondo: "#4B0082", ia: "#DA70D6", usuario: "#D4AF37" }  // Usuario en oro/amarillo
 };
 
 // Detectar modo según texto
 function detectarModo(texto) {
     texto = texto.toLowerCase();
+    
+    // 1. MODO IRRELEVANTE (Prioridad alta para preguntas directas)
+    if (texto.includes("qué es") || texto.includes("que es") || 
+        texto.includes("dime") || texto.includes("info") || 
+        texto.includes("cuando") || texto.includes("quien") ||
+        texto.includes("cuanto") || texto.includes("cuántos") ||
+        texto.includes("dame")) {
+        return "irrelevante";
+    }
+
+    // 2. MODO MOTIVADOR
     if(texto.includes("triste") || texto.includes("aburrido") || texto.includes("motiva")) return "motivador";
+    
+    // 3. MODO ABSURDO
     if(texto.includes("gracioso") || texto.includes("lol") || texto.includes("chiste")) return "absurdo";
-    return "toxico"; // Modo por defecto
+    
+    // 4. MODO TÓXICO (Por defecto)
+    return "toxico"; 
 }
 
 // Mostrar mensaje con efecto de escritura
@@ -146,17 +187,13 @@ function mostrarMensaje(mensaje, clase) {
     const intervalo = setInterval(() => {
         div.textContent += mensaje[i];
         i++;
-        if(i >= mensaje.length) clearInterval(intervalo);
+        if(i >= mensaje.length) {
+            clearInterval(intervalo);
+            if(clase === "ia" && popSound) popSound.play(); 
+        }
     }, 30);
 
     chat.scrollTop = chat.scrollHeight;
-    if(clase === "ia" && popSound) popSound.play();
-}
-
-// Cambiar colores según modo
-function aplicarColores(modo) {
-    document.body.style.backgroundColor = colores[modo].fondo;
-    // La burbuja de IA ya tiene el color de fondo dinámico aplicado
 }
 
 // Guardar historial
@@ -168,9 +205,10 @@ function guardarHistorial(user, bot) {
 
 // Cargar historial
 function cargarHistorial() {
-    let historial = JSON.parse(localStorage.getItem("sarcastibotHist" || "[]"));
+    let historial = JSON.parse(localStorage.getItem("sarcastibotHist") || "[]");
+    
+    // Al cargar, no usamos el efecto de escritura para mayor velocidad
     historial.forEach(item => {
-        // Al cargar, no usamos el efecto de escritura para mayor velocidad
         const userDiv = document.createElement("div");
         userDiv.className = "usuario";
         userDiv.textContent = item.user;
@@ -179,7 +217,6 @@ function cargarHistorial() {
         const iaDiv = document.createElement("div");
         iaDiv.className = "ia";
         iaDiv.textContent = item.bot;
-        iaDiv.style.backgroundColor = detectarModo(item.user) ? colores[detectarModo(item.user)].ia : colores.toxico.ia;
         chat.appendChild(iaDiv);
     });
 
@@ -196,52 +233,34 @@ function enviar() {
     const texto = input.value.trim();
     if(!texto) return;
 
-    // Mostrar mensaje del usuario
+    // 1. Mostrar mensaje del usuario
     mostrarMensaje(texto, "usuario");
 
-    // Detectar modo
+    // 2. Detectar modo (solo para elegir la respuesta correcta)
     const modo = detectarModo(texto);
 
-    // Elegir respuesta aleatoria
+    // 3. Elegir respuesta aleatoria
     const respuesta = modos[modo][Math.floor(Math.random() * modos[modo].length)];
 
-    // Mostrar respuesta IA
+    // 4. Mostrar respuesta IA
     setTimeout(() => {
-        // Aplicar color de la burbuja IA justo antes de mostrar el mensaje
-        document.body.style.backgroundColor = colores[modo].fondo;
-        const userDiv = document.querySelector(".chat-box .usuario:last-child");
-        userDiv.style.backgroundColor = colores[modo].usuario; 
-        
-        // Creamos la burbuja de la IA
-        const iaDiv = document.createElement("div");
-        iaDiv.className = "ia";
-        iaDiv.style.backgroundColor = colores[modo].ia; // Color de burbuja IA
-        chat.appendChild(iaDiv);
-        
-        // Efecto de escritura en el nuevo div
-        let i = 0;
-        const intervalo = setInterval(() => {
-            iaDiv.textContent += respuesta[i];
-            i++;
-            if(i >= respuesta.length) {
-                clearInterval(intervalo);
-                if(popSound) popSound.play();
-            }
-        }, 30);
-
-        chat.scrollTop = chat.scrollHeight;
-
+        mostrarMensaje(respuesta, "ia");
     }, 500);
 
-    // Guardar historial
+    // 5. Guardar historial
     guardarHistorial(texto, respuesta);
 
+    // 6. Limpiar input
     input.value = "";
 }
 
 // Eventos
 sendBtn.addEventListener("click", enviar);
-input.addEventListener("keypress", e => { if(e.key === "Enter") enviar(); });
+input.addEventListener("keypress", e => { 
+    if(e.key === "Enter") {
+        enviar(); 
+    }
+});
 
 // Inicializar historial
 cargarHistorial();
