@@ -1,113 +1,178 @@
-/* Estilos Generales y Centrado */
+/* Importar tipografía de Google, similar a la de WhatsApp */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* --- 1. Estilos Generales y Fondo --- */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     
-    /* CENTRADO en Pantalla Completa */
+    /* Centrado en Pantalla Completa y Adaptabilidad */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Asegura que se centre verticalmente */
+    min-height: 100vh; 
     
-    /* Fondo neutro y estático para el cuerpo */
-    background-color: #ECE5DD; /* Color muy claro, como el fondo de WhatsApp */
-    color: #1F2E35; /* Texto general oscuro */
-    transition: none;
+    /* Fondo con textura de WhatsApp (Color base y ligera textura) */
+    background-color: #ECE5DD; 
+    
+    /* Opcional: Si quieres un fondo con patrón (requiere una imagen)
+    background-image: url('whatsapp_wallpaper.png'); 
+    background-size: cover; */
+    
+    color: #1F2E35; 
+    overflow-y: scroll; /* Permite scroll incluso en el cuerpo si es necesario */
 }
 
-/* --- Contenedor Principal (como la ventana de chat) --- */
+/* --- 2. Contenedor Principal (Ventana de Chat) --- */
 .chat-container {
-    width: 90%; /* Ancho base para móviles */
-    max-width: 500px; /* Ancho máximo para ordenadores */
-    height: 90vh; /* Altura para móviles */
-    max-height: 700px; /* Altura máxima para ordenadores */
+    width: 100%; /* Ocupa el 100% del ancho en móvil */
+    max-width: 600px; /* Ancho máximo estándar de chat */
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
     
-    background-color: #FFFFFF; /* Fondo blanco para el chat */
-    border-radius: 10px;
+    background-color: transparent; /* Fondo transparente para que se vea el fondo del body */
+    border-radius: 0; /* Sin bordes redondeados para simular una app */
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    padding: 0; 
+    box-shadow: none; /* Sin sombra para look de aplicación */
 }
 
 .chat-box {
     flex: 1;
     overflow-y: auto;
-    margin-bottom: 10px;
-    padding: 10px;
+    padding: 10px 8px; /* Padding interno */
+    background-color: transparent;
 }
 
-/* --- Estilos de Burbujas (Estilo WhatsApp) --- */
+/* Esconder la barra de scroll para una apariencia más limpia */
+.chat-box::-webkit-scrollbar {
+    display: none;
+}
+.chat-box {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* --- 3. Estilos de Burbujas (La Clave) --- */
 .usuario, .ia {
-    padding: 8px 12px;
-    border-radius: 10px; 
-    margin: 8px 0;
-    max-width: 75%; /* Deja espacio para el "flotado" */
+    position: relative;
+    padding: 8px 10px 6px 10px; /* Ajuste fino del padding para el texto */
+    margin: 4px 0;
+    max-width: 80%;
     word-wrap: break-word;
-    line-height: 1.4;
+    line-height: 1.35;
+    font-size: 15px; /* Tamaño de fuente real */
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    transition: none; 
+    border-radius: 8px; /* Bordes menos redondeados */
 }
 
-/* BURBUJA DEL USUARIO (Flotada a la derecha) */
+/* Flecha de la burbuja (Se logra con CSS tricks) */
+.usuario::after, .ia::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+/* BURBUJA DEL USUARIO (Flotada a la derecha - Verde WhatsApp) */
 .usuario {
-    /* Color de burbuja del usuario (similar al verde de WhatsApp) */
     background-color: #DCF8C6; 
-    color: #000000; /* Texto negro, muy legible */
-    text-align: left;
-    align-self: flex-end; /* Alinea a la derecha */
-    border-top-right-radius: 0; /* Esquina para el estilo de WhatsApp */
-    margin-left: auto; /* Empuja a la derecha */
+    color: #000000; 
+    align-self: flex-end; 
+    margin-left: auto; 
+    border-radius: 8px 0 8px 8px; /* Esquina superior derecha recta */
+    padding-right: 25px; /* Espacio para el checkmark */
 }
 
-/* BURBUJA DEL BOT/IA (Flotada a la izquierda) */
+/* Flecha del Usuario (Pequeño triángulo) */
+.usuario::after {
+    border-width: 0 10px 10px 0;
+    border-color: transparent #DCF8C6 transparent transparent;
+    right: -9px;
+    top: 0;
+}
+
+
+/* BURBUJA DEL BOT/IA (Flotada a la izquierda - Blanco/Gris WhatsApp) */
 .ia {
-    /* Color de burbuja del bot (similar al gris claro de WhatsApp) */
     background-color: #FFFFFF; 
-    border: 1px solid #DDDDDD; /* Borde sutil */
-    color: #000000; /* Texto negro, muy legible */
-    text-align: left;
-    align-self: flex-start; /* Alinea a la izquierda */
-    border-top-left-radius: 0; /* Esquina para el estilo de WhatsApp */
-    margin-right: auto; /* Empuja a la izquierda */
+    color: #000000; 
+    align-self: flex-start; 
+    margin-right: auto; 
+    border-radius: 0 8px 8px 8px; /* Esquina superior izquierda recta */
 }
 
-/* --- Estilos de Entrada y Botón --- */
-/* Contenedor de input y botón ya está en línea por defecto en el HTML */
+/* Flecha del Bot (Pequeño triángulo) */
+.ia::before {
+    border-width: 10px 10px 0 0;
+    border-color: #FFFFFF transparent transparent transparent;
+    left: -9px;
+    top: 0;
+}
+
+
+/* Ticks de Confirmación (Elemento visual crucial) */
+.ia::after {
+    content: '✓✓'; /* Doble tick (emulado) */
+    position: absolute;
+    bottom: 0px;
+    right: 5px;
+    font-size: 10px;
+    color: #4FC3F7; /* Azul de WhatsApp */
+    z-index: 10;
+    padding-left: 5px;
+}
+
+/* --- 4. Estilos de Entrada (Footer de la App) --- */
+.chat-container > div:last-child {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: #F0F0F0; /* Barra inferior gris claro */
+}
 
 #userInput {
-    padding: 12px;
-    border-radius: 20px; /* Bordes redondeados */
-    border: 1px solid #DDDDDD;
-    /* Calculamos el ancho para dejar espacio al botón */
-    width: calc(100% - 70px); 
-    background-color: #F8F8F8;
+    flex-grow: 1; /* Ocupa el espacio restante */
+    padding: 12px 18px;
+    border-radius: 25px; /* Más redondo que antes */
+    border: none;
+    background-color: #FFFFFF; 
     color: #000000;
+    font-size: 15px;
+    margin-right: 8px;
 }
 
 #sendBtn {
-    padding: 12px;
-    border-radius: 50%; /* Botón redondo */
-    border: none;
-    background-color: #25D366; /* Verde de WhatsApp */
+    /* Mantenemos el botón redondo, pero con ícono de micrófono */
+    background-color: #25D366; 
     color: white;
-    cursor: pointer;
     width: 45px;
     height: 45px;
-    margin-left: 5px;
-    /* Alineación vertical */
+    border-radius: 50%;
+    
+    /* Usaremos un ícono simulado aquí, idealmente un emoji o un font icon */
+    font-size: 18px;
+    line-height: 1;
+    content: '>'; /* Usaremos un ">" simple como icono de enviar */
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.3s;
 }
 
 #sendBtn:hover {
     background-color: #128C7E;
 }
 
-/* Contenedor input + botón */
-.chat-container input, .chat-container button {
-    box-sizing: border-box;
+/* Media Query para Escritorio: Evita que ocupe toda la pantalla */
+@media (min-width: 768px) {
+    .chat-container {
+        height: 85vh; /* Se encoge un poco en pantallas grandes */
+        max-width: 500px; /* Vuelve al ancho máximo */
+        border-radius: 10px; /* Añade bordes si no es pantalla completa */
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); 
+    }
 }
