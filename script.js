@@ -597,7 +597,7 @@ function cargarHistorial() {
     });
 
     setTimeout(() => {
-         mostrarMensaje("SarcastiBot: Reiniciando... Tu historial me aburre. Intenta algo nuevo.", "ia");
+         mostrarMensaje("SssyBot: Reiniciando... Tu historial me aburre. Intenta algo nuevo.", "ia");
     }, 500);
 
     chat.scrollTop = chat.scrollHeight;
