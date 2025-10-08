@@ -1,0 +1,76 @@
+/* Colores según modo */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1E1E1E; /* Default */
+    transition: background-color 0.5s;
+}
+
+.chat-container {
+    width: 400px;
+    max-width: 95%;
+    height: 600px;
+    background-color: #2E2E2E;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.usuario, .ia {
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin: 5px 0;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.usuario {
+    background-color: #2E2E2E;
+    color: #FFFFFF;
+    text-align: right;
+    align-self: flex-end;
+}
+
+.ia {
+    background-color: #FFD700; /* Default IA */
+    color: #000;
+    text-align: left;
+    align-self: flex-start;
+}
+
+#userInput {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 5px;
+    width: calc(100% - 80px);
+}
+
+#sendBtn {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #FFD700;
+    color: #000;
+    cursor: pointer;
+    width: 60px;
+    margin-left: 5px;
+}
+
+/* Contenedor input + botón */
+.chat-container input, .chat-container button {
+    box-sizing: border-box;
+}
