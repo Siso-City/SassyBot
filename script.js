@@ -436,6 +436,7 @@ function mostrarMensaje(mensaje, clase) {
         i++;
         if(i >= mensaje.length) {
             clearInterval(intervalo);
+            // Solo reproduce el sonido si existe y si es el bot quien habla
             if(clase === "ia" && popSound) popSound.play(); 
         }
     }, 30);
