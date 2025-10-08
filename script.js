@@ -119,10 +119,13 @@ const modos = {
 };
 
 // Colores por modo
+
 const colores = {
-    toxico: { fondo: "#2B0000", ia: "#FF4500" }, // Rojo oscuro y Naranja-Rojo
-    motivador: { fondo: "#0B3D91", ia: "#00FF7F" }, // Azul marino y Verde brillante
-    absurdo: { fondo: "#4B0082", ia: "#DA70D6" } // Morado oscuro y Lila
+    // Definimos el color que usará la burbuja del USUARIO. 
+    // Debe ser diferente al fondo del BODY para destacar.
+    toxico:    { fondo: "#2B0000", ia: "#FF4500", usuario: "#FF8C00" }, // Usuario en naranja
+    motivador: { fondo: "#0B3D91", ia: "#00FF7F", usuario: "#4BC0C8" }, // Usuario en turquesa
+    absurdo:   { fondo: "#4B0082", ia: "#DA70D6", usuario: "#D4AF37" }  // Usuario en oro/amarillo
 };
 
 // Detectar modo según texto
@@ -206,6 +209,8 @@ function enviar() {
     setTimeout(() => {
         // Aplicar color de la burbuja IA justo antes de mostrar el mensaje
         document.body.style.backgroundColor = colores[modo].fondo;
+        const userDiv = document.querySelector(".chat-box .usuario:last-child");
+        userDiv.style.backgroundColor = colores[modo].usuario; 
         
         // Creamos la burbuja de la IA
         const iaDiv = document.createElement("div");
